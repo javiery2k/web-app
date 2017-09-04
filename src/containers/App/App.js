@@ -16,14 +16,27 @@ import ProveedoresAgregar from './../../views/Proveedores/Agregar';
 import CatalogoListar from './../../views/Catalogo/Listar';
 import CatalogoAgregar from './../../views/Catalogo/Agregar';
 
+import * as Api from './../../helper/Api';
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      appData: {}
+        appData: {},
+        loading: true
     };
   }
+  componentDidMount() {
+    Api.session().then((appData) => {
+      this.setState({appData, loading: false});
+    });
+  }
   render() {
+    if (this.state.loading === true) {
+      return (
+        <div>Loading</div>
+      );
+    }
     return (
       <div className="app">
         <Header {...this.props} appData={this.state.appData}/>
