@@ -1,0 +1,12 @@
+[
+    {
+        "key": "localhost",
+        "currentHost": "localhost:8081",
+        "endpoint": "http://localhost:3001"
+    },
+    {
+        "key": "production",
+        "currentHost": "up.com",
+        "endpoint": "http://localhost:3001"
+    }
+]

@@ -22,7 +22,7 @@
     "no-console": 1,
     "no-debugger": 1,
     "no-var": 1,
-    "object-curly-spacing": [2, "never"],
+    "object-curly-spacing": [2, "always"],
     "indent": ["error", 4],
     "semi": [1, "always"],
     "no-trailing-spaces": 0,
@@ -62,7 +62,7 @@
     "react/react-in-jsx-scope": 1,
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "import/extensions": 1,
+    "import/extensions": 0,
     'import/no-named-default': 'off'
   },
   "globals": {

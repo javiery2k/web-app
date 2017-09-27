@@ -1,1 +1,10 @@
 // core overrides
+$navbar-bg:                           $gray-800;
+$navbar-color:                        $white;
+$navbar-hover-color:                  $red;
+$navbar-active-color:                 $white;
+$navbar-disabled-color:               $white;
+
+
+$navbar-brand-logo:                   url('../img/logo.jpg') !default;
+$navbar-brand-logo-size:              40px auto !default;
