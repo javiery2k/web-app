@@ -3,9 +3,11 @@
 .error-message {
     color: $form-feedback-invalid-color;
 }
-.navbar-brand{
+
+.navbar-brand {
     background-size: contain;
 }
+
 .navbar-nav {
     .nav-link {
         font-size: 12px;
@@ -16,15 +18,26 @@
     }
 }
 
-.table-responsive{
+.table-responsive {
     text-align: center;
 }
-/*
-.app-header.navbar .navbar-brand {
-    background: none;
-    font-size: 12px;
-    color: $white;
-    word-break: break-all;
-    white-space: normal;
+
+.loading {
+    background-image: url('../img/loading.gif');
+    width: 64px;
+    height: 50px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    right: 0;
+    text-indent: -9999px;
 }
-*/
+@include media-breakpoint-down(sm) {
+    .main {
+        .container-fluid {
+            padding: 0 10px;
+        }
+    }
+}

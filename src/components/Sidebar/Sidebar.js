@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import cookie from 'react-cookies';
 import { NavLink } from 'react-router-dom';
 
 class Sidebar extends Component {
-
+    constructor(props) {
+        super(props);
+        this.onLogout = this.onLogout.bind(this);
+    }
     handleClick(e) {
         e.preventDefault();
         e.target.parentElement.classList.toggle('open');
     }
-
+    onLogout() {
+        cookie.remove('uid');
+        location.href = '/';
+    }
     activeRoute(routeName) {
         return this.props.location.pathname.indexOf(routeName) > -1 ? 'nav-item nav-dropdown open' : 'nav-item nav-dropdown';
     }
-
     render() {
         return (
             <div className="sidebar">
@@ -81,6 +87,11 @@ class Sidebar extends Component {
                                     Agregar</NavLink>
                                 </li>
                             </ul>
+                        </li>
+                        <li className="nav-item">
+                            <div className="nav-link" onClick={this.onLogout}><i className="fa fa-sign-out"/>
+                                Logout
+                            </div>
                         </li>
                     </ul>
                 </nav>

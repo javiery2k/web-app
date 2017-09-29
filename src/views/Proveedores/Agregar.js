@@ -43,8 +43,12 @@ class AgregarProveedor extends Component {
                 }
             },
             email_contacto: {
+
                 presence: {
                     message: '^Ingrese el email.'
+                },
+                email:{
+                    message: '^Ingrese un email valido.'
                 }
             },
             direccion: {

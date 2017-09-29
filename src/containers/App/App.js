@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
-
-import Environment from './../../../config/Initialize';
+import PropTypes from 'prop-types';
+import cookie from 'react-cookies';
 
 import Header from './../../components/Header/Header';
 import Sidebar from './../../components/Sidebar/Sidebar';
@@ -28,15 +28,22 @@ class App extends Component {
         super(props);
         this.state = {
             appData: {
-                endpoint: Environment.endpoint
+                endpoint: this.props.environment.endpoint,
+                uid: cookie.load('uid')
             },
             loading: true
         };
     }
     componentDidMount() {
-        Api.login().then((appData) => {
-            this.setState({ loading: false });
-        });
+        setTimeout(() => {
+            if (cookie.load('uid')) {
+                this.setState({
+                    loading: false
+                });
+            } else {
+                this.props.history.push('/login');
+            }
+        }, 500);
     }
     render() {
         if (this.state.loading === true) {
@@ -66,6 +73,7 @@ class App extends Component {
                                 <Route path="/catalogo/agregar/" render={routeProps => <CatalogoAgregar {...routeProps} appData={this.state.appData}/>} />
                                 <Route path="/catalogo/editar/:id" render={routeProps => <CatalogoAgregar {...routeProps} appData={this.state.appData}/>} />
                                 <Route path="/catalogo/ver/:id" render={routeProps => <CatalogoVer {...routeProps} appData={this.state.appData}/>} />
+                                <Redirect from="/" to="/dashboard"/>
                             </Switch>
                         </div>
                     </main>
@@ -75,5 +83,10 @@ class App extends Component {
         );
     }
 }
+
+App.propTypes = {
+    environment: PropTypes.object,
+    history: PropTypes.object
+};
 
 export default App;

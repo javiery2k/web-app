@@ -24,6 +24,8 @@ class ListarCatalogo extends Component {
             return response.json();
         }).then((response) => {
             this.setState({ data: response, loading: false, activePage: 1 });
+        }).catch(function(err) {
+            console.log(err);
         });
     }
     toggle(e, selectedId = 0) {
@@ -48,6 +50,8 @@ class ListarCatalogo extends Component {
             return response.json();
         }).then((response) => {
             this.setState({ data: response, loading: false, activePage: pageNumber });
+        }).catch(function(err) {
+            console.log(err);
         });
     }
     render() {
@@ -63,7 +67,7 @@ class ListarCatalogo extends Component {
                         <CardBlock className="card-body">
                             <Link to={`/catalogo/agregar/`}>
                                 <Button color="success">
-                                    <i className="fa fa-plus"></i>{'\u00A0'} Agregar
+                                    <i className="fa fa-plus"/>{'\u00A0'} Agregar
                                 </Button>
                             </Link>
                         </CardBlock>
@@ -81,9 +85,9 @@ class ListarCatalogo extends Component {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>id</th>
-                                        <th>Tipo</th>
-                                        <th>Codigo</th>
+                                        <th className="hidden-sm-down">id</th>
+                                        <th className="hidden-sm-down">Tipo</th>
+                                        <th className="hidden-sm-down">Codigo</th>
                                         <th>Nombre</th>
                                         <th>Marca</th>
                                         <th>Opciones</th>
@@ -93,9 +97,9 @@ class ListarCatalogo extends Component {
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.RNUM}</td>
-                                            <td>{item.IDACTIVO}</td>
-                                            <td>{item.TIPOITEM}</td>
-                                            <td>{item.CODIGO}</td>
+                                            <td className="hidden-sm-down">{item.IDACTIVO}</td>
+                                            <td className="hidden-sm-down">{item.TIPOITEM}</td>
+                                            <td className="hidden-sm-down">{item.CODIGO}</td>
                                             <td>{item.NOMBRE}</td>
                                             <td>{item.MARCA}</td>
                                             <td>
@@ -119,16 +123,16 @@ class ListarCatalogo extends Component {
                                     onChange={this.handlePageChange}
                                 />
                             </nav>
-                            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                              <ModalHeader toggle={this.toggle}>Eliminar Proveedor</ModalHeader>
-                              <ModalBody>
-                                Debido a que los proveedores estan asociados a ciertas ordenes, no es posible elimminar los proveedores.
-                                Desea desactivar este Proveedor para que no pueda ser utilizado posteriormente?
-                              </ModalBody>
-                              <ModalFooter>
-                                <Button color="primary" onClick={this.handleDelete}>Desactivar</Button>{' '}
-                                <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
-                              </ModalFooter>
+                            <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                                <ModalHeader toggle={this.toggle}>Eliminar Proveedor</ModalHeader>
+                                <ModalBody>
+                                    Debido a que los proveedores estan asociados a ciertas ordenes, no es posible elimminar los proveedores.
+                                    Desea desactivar este Proveedor para que no pueda ser utilizado posteriormente?
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="primary" onClick={this.handleDelete}>Desactivar</Button>{' '}
+                                    <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
+                                </ModalFooter>
                             </Modal>
                         </CardBlock>
                     </Card>

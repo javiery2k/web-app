@@ -45,8 +45,8 @@ $colors: (
 );
 
 $theme-colors: (
-  //primary:                        $blue,
-  primary:                        $btn-orange,
+  primary:                        $blue,
+  //primary:                        $btn-orange,
   secondary:                      $gray-300,
   success:                        $green,
   info:                           $cyan,
@@ -61,7 +61,7 @@ $theme-colors: (
 // Quickly modify global styling by enabling or disabling optional features.
 
 $enable-transitions:              true;
-$enable-rounded:                  true;
+$enable-rounded:                  false;
 
 // Body
 //
