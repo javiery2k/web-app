@@ -10,7 +10,7 @@ const getPaths = (pathname) => {
 
     if (pathname === '/') return paths;
 
-    pathname.split('/').reduce((prev, curr, index) => {
+    pathname.split('/').reduce((prev, curr) => {
         const currPath = `${prev}/${curr}`;
         paths.push(currPath);
         return currPath;
@@ -22,16 +22,14 @@ const BreadcrumbsItem = ({ ...rest, match }) => {
     const routeName = findRouteName(match.url);
     if (routeName) {
         return (
-            match.isExact ?
-            (
+            match.isExact ? (
                 <BreadcrumbItem active>{routeName}</BreadcrumbItem>
-            ) :
-            (
+            ) : (
                 <BreadcrumbItem>
-            <Link to={match.url || ''}>
-              {routeName}
-            </Link>
-          </BreadcrumbItem>
+                    <Link to={match.url || ''}>
+                        {routeName}
+                    </Link>
+                </BreadcrumbItem>
             )
         );
     }
@@ -43,13 +41,13 @@ const Breadcrumbs = ({ ...rest, location: { pathname }, match }) => {
     const items = paths.map((path, i) => <Route key={i++} path={path} component={BreadcrumbsItem}/>);
     return (
         <Breadcrumb>
-      {items}
-    </Breadcrumb>
+            {items}
+        </Breadcrumb>
     );
 };
 
 export default props => (
     <div>
-    <Route path="/:path" component={Breadcrumbs} {...props} />
-  </div>
+        <Route path="/:path" component={Breadcrumbs} {...props} />
+    </div>
 );

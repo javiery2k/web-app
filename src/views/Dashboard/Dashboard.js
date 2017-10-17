@@ -1,33 +1,14 @@
 import React, { Component } from "react";
-import { Bar, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
-    Badge,
     Row,
     Col,
-    Progress,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     Card,
-    CardHeader,
-    CardBlock,
-    CardFooter,
-    CardTitle,
-    Button,
-    ButtonToolbar,
-    ButtonGroup,
-    ButtonDropdown,
-    Label,
-    Input,
-    Table
+    CardBlock
 } from "reactstrap";
 
 const brandPrimary = '#20a8d8';
-const brandSuccess = '#4dbd74';
 const brandInfo = '#63c2de';
-const brandWarning = '#f8cb00';
-const brandDanger = '#f86c6b';
 
 // Card Chart 1
 const cardChartData1 = {
@@ -152,7 +133,7 @@ class Dashboard extends Component {
                                 <h4 className="mb-0">0</h4>
                                 <p>Ordenes</p>
                             </CardBlock>
-                            <div className="chart-wrapper px-3" style={{ height:'70px' }}>
+                            <div className="chart-wrapper px-3" style={{ height: '70px' }}>
                                 <Line data={cardChartData1} options={cardChartOpts1} height={70}/>
                             </div>
                         </Card>
@@ -164,7 +145,7 @@ class Dashboard extends Component {
                                 <h4 className="mb-0">0</h4>
                                 <p>Requisiciones</p>
                             </CardBlock>
-                            <div className="chart-wrapper px-3" style={{ height:'70px' }}>
+                            <div className="chart-wrapper px-3" style={{ height: '70px' }}>
                                 <Line data={cardChartData2} options={cardChartOpts2} height={70}/>
                             </div>
                         </Card>

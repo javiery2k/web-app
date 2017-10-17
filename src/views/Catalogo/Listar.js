@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Badge, Row, Col, Card, CardHeader, CardBlock, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Row, Col, Card, CardHeader, CardBlock, Table, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Pagination from "react-js-pagination";
+
 class ListarCatalogo extends Component {
     constructor(props) {
         super(props);
@@ -11,47 +12,18 @@ class ListarCatalogo extends Component {
                 rows: [],
                 total: 0
             },
-            modal: false,
-            selectedId: 0,
             loading: false
         };
         this.handlePageChange = this.handlePageChange.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-        this.toggle = this.toggle.bind(this);
     }
     componentDidMount() {
-        fetch(`${this.props.appData.endpoint}/activos/`).then((response) => {
-            return response.json();
-        }).then((response) => {
+        fetch(`${this.props.appData.endpoint}/catalogo/`).then(response => response.json()).then((response) => {
             this.setState({ data: response, loading: false, activePage: 1 });
-        }).catch(function(err) {
-            console.log(err);
-        });
-    }
-    toggle(e, selectedId = 0) {
-        this.setState({
-            modal: !this.state.modal,
-            selectedId
-        });
-    }
-    handleDelete() {
-        fetch(`${this.props.appData.endpoint}/activos/`, {
-            method: "DELETE",
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: `status=inactive&id=${this.state.selectedId}`
-        }).then((response) => {
-            return response.json();
         });
     }
     handlePageChange(pageNumber) {
-        fetch(`${this.props.appData.endpoint}/activos/?pageNumber=${pageNumber}`).then((response) => {
-            return response.json();
-        }).then((response) => {
+        fetch(`${this.props.appData.endpoint}/catalogo/?pageNumber=${pageNumber}`).then(response => response.json()).then((response) => {
             this.setState({ data: response, loading: false, activePage: pageNumber });
-        }).catch(function(err) {
-            console.log(err);
         });
     }
     render() {
@@ -67,7 +39,7 @@ class ListarCatalogo extends Component {
                         <CardBlock className="card-body">
                             <Link to={`/catalogo/agregar/`}>
                                 <Button color="success">
-                                    <i className="fa fa-plus"/>{'\u00A0'} Agregar
+                                    <i className="fa fa-plus"/>{'\u00A0'} Nuevo Activo/Servicio
                                 </Button>
                             </Link>
                         </CardBlock>
@@ -78,39 +50,44 @@ class ListarCatalogo extends Component {
                 <Col>
                     <Card>
                         <CardHeader>
-                            <i className="fa fa-align-justify"/> Listado de Activos del Catalogo
+                            <i className="fa fa-align-justify"/> Gestionar Catalogo
                         </CardHeader>
                         <CardBlock className="card-body">
                             <Table responsive>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th className="hidden-sm-down">id</th>
-                                        <th className="hidden-sm-down">Tipo</th>
-                                        <th className="hidden-sm-down">Codigo</th>
+                                        <th width="2%">#</th>
+                                        <th>Acciones</th>
+                                        <th>Tipo</th>
+                                        <th>Codigo</th>
                                         <th>Nombre</th>
                                         <th>Marca</th>
-                                        <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{item.RNUM}</td>
-                                            <td className="hidden-sm-down">{item.IDACTIVO}</td>
-                                            <td className="hidden-sm-down">{item.TIPOITEM}</td>
-                                            <td className="hidden-sm-down">{item.CODIGO}</td>
-                                            <td>{item.NOMBRE}</td>
-                                            <td>{item.MARCA}</td>
+                                            <td>{item.rnum}</td>
                                             <td>
-                                                <Link to={`/catalogo/ver/${item.IDACTIVO}/`}>
-                                                    <Button outline color="info" size="sm"><i className="fa fa-eye"/></Button>
-                                                </Link>
-                                                <Link to={`/catalogo/editar/${item.IDACTIVO}/`}>
-                                                    <Button outline color="warning" size="sm"><i className="fa fa-edit"/></Button>
-                                                </Link>
-                                                <Button onClick={(e) => this.toggle(e, item.IDACTIVO)} outline color="danger" size="sm"><i className="fa fa-trash"/></Button>
+                                                <UncontrolledDropdown>
+                                                    <DropdownToggle caret>
+                                                      acciones
+                                                    </DropdownToggle>
+                                                    <DropdownMenu>
+                                                        <Link to={`/catalogo/ver/${item.idcatalogo}/`}>
+                                                            <DropdownItem>Ver</DropdownItem>
+                                                        </Link>
+                                                        <Link to={`/catalogo/editar/${item.idcatalogo}/`}>
+                                                            <DropdownItem>Editar</DropdownItem>
+                                                        </Link>
+                                                    </DropdownMenu>
+                                                </UncontrolledDropdown>
                                             </td>
+                                            <td>{item.tipoitem}</td>
+                                            <td>{item.codigo}</td>
+                                            <td>{item.nombre}</td>
+                                            <td>{item.marca}</td>
+
                                         </tr>))}
                                 </tbody>
                             </Table>
@@ -123,17 +100,6 @@ class ListarCatalogo extends Component {
                                     onChange={this.handlePageChange}
                                 />
                             </nav>
-                            <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                                <ModalHeader toggle={this.toggle}>Eliminar Proveedor</ModalHeader>
-                                <ModalBody>
-                                    Debido a que los proveedores estan asociados a ciertas ordenes, no es posible elimminar los proveedores.
-                                    Desea desactivar este Proveedor para que no pueda ser utilizado posteriormente?
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={this.handleDelete}>Desactivar</Button>{' '}
-                                    <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
-                                </ModalFooter>
-                            </Modal>
                         </CardBlock>
                     </Card>
                 </Col>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Card, CardHeader, CardBlock, Table, Button, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Pagination from "react-js-pagination";
 
-class ListarRequisiciones extends Component {
+class ListarObjetosGasto extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,12 +17,12 @@ class ListarRequisiciones extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
     }
     componentDidMount() {
-        fetch(`${this.props.appData.endpoint}/requisiciones/`).then(response => response.json()).then((response) => {
+        fetch(`${this.props.appData.endpoint}/objeto_gasto/`).then(response => response.json()).then((response) => {
             this.setState({ data: response, loading: false, activePage: 1 });
         });
     }
     handlePageChange(pageNumber) {
-        fetch(`${this.props.appData.endpoint}/requisiciones/?pageNumber=${pageNumber}`).then(response => response.json()).then((response) => {
+        fetch(`${this.props.appData.endpoint}/objeto_gasto/?pageNumber=${pageNumber}`).then(response => response.json()).then((response) => {
             this.setState({ data: response, loading: false, activePage: pageNumber });
         });
     }
@@ -37,9 +37,9 @@ class ListarRequisiciones extends Component {
                 <Col>
                     <Card>
                         <CardBlock className="card-body">
-                            <Link to={`/requisiciones/agregar/`}>
+                            <Link to={`/objeto_gasto/agregar/`}>
                                 <Button color="success">
-                                    <i className="fa fa-plus"/>{'\u00A0'} Nueva Requisicion
+                                    <i className="fa fa-plus"/>{'\u00A0'} Nuevo Objeto de Gasto
                                 </Button>
                             </Link>
                         </CardBlock>
@@ -50,7 +50,7 @@ class ListarRequisiciones extends Component {
                 <Col>
                     <Card>
                         <CardHeader>
-                            <i className="fa fa-align-justify"/> Gestionar Requisiciones
+                            <i className="fa fa-align-justify"/> Gestionar Objetos de Gasto
                         </CardHeader>
                         <CardBlock className="card-body">
                             <Table responsive>
@@ -58,10 +58,9 @@ class ListarRequisiciones extends Component {
                                     <tr>
                                         <th width="2%">#</th>
                                         <th>Acciones</th>
-                                        <th>Tipo</th>
                                         <th>Codigo</th>
                                         <th>Nombre</th>
-                                        <th>Marca</th>
+                                        <th>Descripcion</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,19 +73,18 @@ class ListarRequisiciones extends Component {
                                                       acciones
                                                     </DropdownToggle>
                                                     <DropdownMenu>
-                                                        <Link to={`/requisiciones/ver/${item.idrequisiciones}/`}>
+                                                        <Link to={`/objeto_gasto/ver/${item.idobjeto_gasto}/`}>
                                                             <DropdownItem>Ver</DropdownItem>
                                                         </Link>
-                                                        <Link to={`/requisiciones/editar/${item.idrequisiciones}/`}>
+                                                        <Link to={`/objeto_gasto/editar/${item.idobjeto_gasto}/`}>
                                                             <DropdownItem>Editar</DropdownItem>
                                                         </Link>
                                                     </DropdownMenu>
                                                 </UncontrolledDropdown>
                                             </td>
-                                            <td>{item.tipoitem}</td>
                                             <td>{item.codigo}</td>
                                             <td>{item.nombre}</td>
-                                            <td>{item.marca}</td>
+                                            <td>{item.descripcion}</td>
 
                                         </tr>))}
                                 </tbody>
@@ -107,7 +105,7 @@ class ListarRequisiciones extends Component {
         </div>);
     }
 }
-ListarRequisiciones.propTypes = {
+ListarObjetosGasto.propTypes = {
     appData: PropTypes.object
 };
-export default ListarRequisiciones;
+export default ListarObjetosGasto;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
+import { Nav, NavItem, NavbarToggler, NavbarBrand } from 'reactstrap';
 
 class Header extends Component {
-
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
@@ -48,7 +46,7 @@ class Header extends Component {
                 <Nav className="ml-auto" navbar>
                     <NavItem className="px-3">
                         <div className="nav-link">
-                            <img src={`img/avatars/${this.props.appData.uid}.jpg`} className="img-avatar"/>
+                            <img src={`img/avatars/${this.props.appData.user.idusuario}.jpg`} className="img-avatar"/>
                         </div>
                     </NavItem>
                 </Nav>

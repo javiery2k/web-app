@@ -93,19 +93,19 @@ class ListarOrdenes extends Component {
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.RNUM}</td>
-                                            <td className="hidden-sm-down">{item.IDACTIVO}</td>
+                                            <td className="hidden-sm-down">{item.IDCATALOGO}</td>
                                             <td className="hidden-sm-down">{item.TIPOITEM}</td>
                                             <td className="hidden-sm-down">{item.CODIGO}</td>
                                             <td>{item.NOMBRE}</td>
                                             <td>{item.MARCA}</td>
                                             <td>
-                                                <Link to={`/catalogo/ver/${item.IDACTIVO}/`}>
+                                                <Link to={`/catalogo/ver/${item.IDCATALOGO}/`}>
                                                     <Button outline color="info" size="sm"><i className="fa fa-eye"/></Button>
                                                 </Link>
-                                                <Link to={`/catalogo/editar/${item.IDACTIVO}/`}>
+                                                <Link to={`/catalogo/editar/${item.IDCATALOGO}/`}>
                                                     <Button outline color="warning" size="sm"><i className="fa fa-edit"/></Button>
                                                 </Link>
-                                                <Button onClick={(e) => this.toggle(e, item.IDACTIVO)} outline color="danger" size="sm"><i className="fa fa-trash"/></Button>
+                                                <Button onClick={(e) => this.toggle(e, item.IDCATALOGO)} outline color="danger" size="sm"><i className="fa fa-trash"/></Button>
                                             </td>
                                         </tr>))}
                                 </tbody>

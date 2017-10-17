@@ -13,7 +13,7 @@ class Sidebar extends Component {
         e.target.parentElement.classList.toggle('open');
     }
     onLogout() {
-        cookie.remove('uid');
+        cookie.remove('data');
         location.href = '/';
     }
     activeRoute(routeName) {
@@ -25,7 +25,7 @@ class Sidebar extends Component {
                 <nav className="sidebar-nav">
                     <ul className="nav">
                         <li className="nav-item">
-                            <NavLink to={'/dashboard'} className="nav-link" activeClassName="active"><i className="fa fa-info"/>
+                            <NavLink to={'/dashboard'} className="nav-link"><i className="fa fa-home"/>
                                 Dashboard
                             </NavLink>
                         </li>
@@ -33,64 +33,74 @@ class Sidebar extends Component {
                           Menu de Opciones
                         </li>
                         <li className={this.activeRoute("/requisiciones")}>
-                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}><i className="fa fa-folder"/>
-                                Requisicion</a>
+                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}>
+                                <i className="icon-docs"/> Requisicion
+                            </a>
                             <ul className="nav-dropdown-items">
                                 <li className="nav-item">
-                                    <NavLink to={'/requisiciones/listar'} className="nav-link" activeClassName="active"><i className="fa fa-list-alt"/>
-                                    Listado</NavLink>
+                                    <NavLink to={'/requisiciones/listar'} className="nav-link">
+                                        Gestionar
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to={'/requisiciones/agregar'} className="nav-link" activeClassName="active"><i className="fa fa-plus"/>
-                                    Agregar</NavLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className={this.activeRoute("/ordenes")}>
-                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}><i className="fa fa-folder"/>
-                            Ordenes</a>
-                            <ul className="nav-dropdown-items">
-                                <li className="nav-item">
-                                    <NavLink to={'/ordenes/listar'} className="nav-link" activeClassName="active"><i className="fa fa-list-alt"/>
-                                    Listado</NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink to={'/ordenes/agregar'} className="nav-link" activeClassName="active"><i className="fa fa-plus"/>
-                                    Agregar</NavLink>
+                                    <NavLink to={'/requisiciones/agregar'} className="nav-link">
+                                        Agregar
+                                    </NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li className={this.activeRoute("/catalogo")}>
-                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}><i className="fa fa-folder"/>
-                            Catalogo</a>
+                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}>
+                                <i className="icon-notebook"/> Catalogo
+                            </a>
                             <ul className="nav-dropdown-items">
                                 <li className="nav-item">
-                                    <NavLink to={'/catalogo/listar'} className="nav-link" activeClassName="active"><i className="fa fa-list-alt"/>
-                                    Listado</NavLink>
+                                    <NavLink to={'/catalogo/listar'} className="nav-link">
+                                        Gestionar
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to={'/catalogo/agregar'} className="nav-link" activeClassName="active"><i className="fa fa-plus"/>
-                                    Agregar</NavLink>
+                                    <NavLink to={'/catalogo/agregar'} className="nav-link">
+                                        Crear Activo / Servicio
+                                    </NavLink>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className={this.activeRoute("/objeto_gasto")}>
+                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}>
+                                <i className="icon-tag"/> Objeto de Gasto
+                            </a>
+                            <ul className="nav-dropdown-items">
+                                <li className="nav-item">
+                                    <NavLink to={'/objeto_gasto/listar'} className="nav-link">
+                                    Gestionar</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to={'/objeto_gasto/agregar'} className="nav-link">
+                                    Nuevo Objeto</NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li className={this.activeRoute("/proveedores")}>
-                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}><i className="fa fa-folder"/>
-                                Proveedores</a>
+                            <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}>
+                                <i className="icon-notebook"/> Proveedores
+                            </a>
                             <ul className="nav-dropdown-items">
                                 <li className="nav-item">
-                                    <NavLink to={'/proveedores/listar'} className="nav-link" activeClassName="active"><i className="fa fa-list-alt"/>
-                                    Listado</NavLink>
+                                    <NavLink to={'/proveedores/listar'} className="nav-link">
+                                        Gestionar
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to={'/proveedores/agregar'} className="nav-link" activeClassName="active"><i className="fa fa-plus"/>
-                                    Agregar</NavLink>
+                                    <NavLink to={'/proveedores/agregar'} className="nav-link">
+                                        Crear Proveedor
+                                    </NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <div className="nav-link" onClick={this.onLogout}><i className="fa fa-sign-out"/>
-                                Logout
+                            <div className="nav-link" onClick={this.onLogout}>
+                                <i className="fa fa-sign-out"/> Logout
                             </div>
                         </li>
                     </ul>

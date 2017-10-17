@@ -1,25 +1,19 @@
 // Here you can add other styles
-
 .error-message {
     color: $form-feedback-invalid-color;
 }
-
-.navbar-brand {
-    background-size: contain;
+.Select.form-control {
+    border: 0;
+    padding: 0;
+    text-align: left;
 }
-
-.navbar-nav {
-    .nav-link {
-        font-size: 12px;
-
-        .fa {
-            font-size: 30px;
-        }
+.view-data {
+    label {
+        font-weight: bold;
     }
 }
-
-.table-responsive {
-    text-align: center;
+.dropdown-menu a {
+    text-decoration: none;
 }
 
 .loading {
@@ -34,10 +28,29 @@
     right: 0;
     text-indent: -9999px;
 }
+
 @include media-breakpoint-down(sm) {
     .main {
         .container-fluid {
             padding: 0 10px;
         }
+    }
+}
+
+.app-login {
+    .app-body {
+        margin-top: 0;
+        height: 93vh;
+        overflow: hidden;
+
+        .main {
+            margin-left: 0;
+        }
+    }
+
+    .app-footer {
+        margin-left: 0;
+        height: 7vh;
+        overflow: hidden;
     }
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Row, Col, Button, Card, CardBlock, FormGroup, Label } from "reactstrap";
 
-class AgregarCatalogo extends Component {
+class VerObjetoGasto extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,7 @@ class AgregarCatalogo extends Component {
     componentDidMount() {
         const id = this.props.match.params.id || null;
         if (id) {
-            fetch(`${this.props.appData.endpoint}/catalogo/${id}/`).then(response => response.json()).then((response) => {
+            fetch(`${this.props.appData.endpoint}/objeto_gasto/${id}/`).then(response => response.json()).then((response) => {
                 this.setState({
                     item: response.rows[0],
                     loading: false
@@ -35,12 +35,12 @@ class AgregarCatalogo extends Component {
                     <Col>
                         <Card>
                             <CardBlock className="card-body">
-                                <Link to={`/catalogo/editar/${item.idcatalogo}`}>
+                                <Link to={`/objeto_gasto/editar/${item.idobjeto_gasto}`}>
                                     <Button color="success">
                                         <i className="fa fa-edit"/>{'\u00A0'} Editar
                                     </Button>
                                 </Link>
-                                <Link to={`/catalogo/listar/`}>
+                                <Link to={`/objeto_gasto/listar/`}>
                                     <Button color="info">
                                         <i className="fa fa-list-alt"/>{'\u00A0'} Listado
                                     </Button>
@@ -57,7 +57,7 @@ class AgregarCatalogo extends Component {
                                     <Col xs="12" md="6">
                                         <FormGroup>
                                             <Label htmlFor="codigo">id</Label>
-                                            <div className="custom-view">{item.idcatalogo}</div>
+                                            <div className="custom-view">{item.idobjeto_gasto}</div>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="12" md="6">
@@ -82,28 +82,6 @@ class AgregarCatalogo extends Component {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs="12" md="6">
-                                        <FormGroup>
-                                            <Label htmlFor="marca">Marca</Label>
-                                            <div className="custom-view">{item.marca}</div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col xs="12" md="6">
-                                        <FormGroup>
-                                            <Label htmlFor="Tipo">Tipo</Label>
-                                            <div className="custom-view">{item.tipoitem}</div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs="12" md="6">
-                                        <FormGroup>
-                                            <Label>Objeto de Gasto</Label>
-                                            <div className="custom-view">{item.idobjeto_gasto}</div>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
                                     <Col xs="12" md="12">
                                         <FormGroup>
                                             <Label htmlFor="descripcion">Descripcion</Label>
@@ -120,9 +98,9 @@ class AgregarCatalogo extends Component {
     }
 }
 
-AgregarCatalogo.propTypes = {
+VerObjetoGasto.propTypes = {
     appData: PropTypes.object,
     match: PropTypes.object,
     history: PropTypes.object
 };
-export default AgregarCatalogo;
+export default VerObjetoGasto;

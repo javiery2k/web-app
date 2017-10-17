@@ -65,7 +65,7 @@ module.exports = (env = {}) => {
                     }))
                 }, {
                     test: /\.css$/,
-                    use: extractCSS.extract({  fallback: 'style-loader', use: 'css-loader' })
+                    use: extractCSS.extract({ fallback: 'style-loader', use: 'css-loader' })
                 }, {
                     test: /\.(png|jpg|jpeg|gif|ico)$/,
                     use: [

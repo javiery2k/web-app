@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Row, Col, Card, CardHeader, CardFooter, CardBlock, Table, Badge, Button } from "reactstrap";
+import { Row, Col, Button, Card, CardBlock, FormGroup, Label } from "reactstrap";
+
 class VerProveedor extends Component {
     constructor(props) {
         super(props);
@@ -9,16 +11,13 @@ class VerProveedor extends Component {
             loading: true
         };
     }
+
     componentDidMount() {
         const id = this.props.match.params.id || null;
         if (id) {
-            fetch(`${this.props.appData.endpoint}/proveedores/${id}/`).then((response) => {
-                return response.json();
-            }).then((response) => {
+            fetch(`${this.props.appData.endpoint}/proveedores/${id}/`).then(response => response.json()).then((response) => {
                 this.setState({
-                    item: {
-                        ...response.rows[0]
-                    },
+                    item: response.rows[0],
                     loading: false
                 });
             });
@@ -27,18 +26,24 @@ class VerProveedor extends Component {
     render() {
         if (this.state.loading === true) {
             return (
-                <div  className="loading">Loading</div>
+                <div className="loading">Loading</div>
             );
         }
+        const item = this.state.item;
         return (
-            <div className="animated fadeIn">
+            <div className="animated fadeIn view-data">
                 <Row>
                     <Col>
                         <Card>
                             <CardBlock className="card-body">
-                                <Link to={`/proveedores/editar/${this.state.item.IDACTIVO}`}>
+                                <Link to={`/proveedores/editar/${item.idproveedor}`}>
+                                    <Button color="success">
+                                        <i className="fa fa-edit"/>{'\u00A0'} Editar
+                                    </Button>
+                                </Link>
+                                <Link to={`/proveedores/listar/`}>
                                     <Button color="info">
-                                        <i className="fa fa-edit"></i>{'\u00A0'} Editar
+                                        <i className="fa fa-list-alt"/>{'\u00A0'} Listado
                                     </Button>
                                 </Link>
                             </CardBlock>
@@ -48,70 +53,132 @@ class VerProveedor extends Component {
                 <Row>
                     <Col xs="12">
                         <Card>
-                            <CardHeader>
-                                <i className="fa fa-edit"/>Ver Datos
-                            </CardHeader>
                             <CardBlock className="card-body">
-                               <Table responsive bordered>
-                                 <tbody>
-                                     <tr>
-                                       <td style={{width: "30%"}}>Nombre</td>
-                                       <td>{this.state.item.NOMBRE_CONTACTO}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Cargo del Contacto</td>
-                                       <td>{this.state.item.CARGO_CONTACTO}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Email</td>
-                                       <td>{this.state.item.EMAIL_CONTACTO}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Direccion</td>
-                                       <td>{this.state.item.DIRECCION}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Ciudad</td>
-                                       <td>{this.state.item.CIUDAD}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Pais</td>
-                                       <td>{this.state.item.PAIS}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Telefono</td>
-                                       <td>{this.state.item.TELEFONO}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>URL</td>
-                                       <td>{this.state.item.URL}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Descripcion</td>
-                                       <td>{this.state.item.DESCRIPCION}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Codigo</td>
-                                       <td>{this.state.item.CODIGO}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>Tipo de Licencia</td>
-                                       <td>{this.state.item.TIPO_LICENCIA}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>FAX</td>
-                                       <td>{this.state.item.FAX}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>RUC</td>
-                                       <td>{this.state.item.RUC}</td>
-                                     </tr>
-                                     <tr>
-                                       <td>DV</td>
-                                       <td>{this.state.item.DV}</td>
-                                     </tr>
-                                 </tbody>
-                               </Table>
+                                <Row>
+                                    <Col xs="12" md="6">
+                                        <h6>Información General</h6>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>id:</Label>
+                                                    <div className="custom-view">{item.idproveedor}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Fecha de Creación:</Label>
+                                                    <div className="custom-view">{item.fecha}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Nombre:</Label>
+                                                    <div className="custom-view">{item.nombre}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12" md="12">
+                                                <FormGroup>
+                                                    <Label>Website:</Label>
+                                                    <div className="custom-view">{item.website}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Giro Comercial:</Label>
+                                                    <div className="custom-view">{item.giro_comercial}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12" md="12">
+                                                <FormGroup>
+                                                    <Label>Descripcion:</Label>
+                                                    <div className="custom-view">{item.descripcion}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                    <Col xs="12" md="6">
+                                        <h6>Información Fiscal</h6>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Nombre o Razon Social:</Label>
+                                                    <div className="custom-view">{item.razon_social}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12" md="12">
+                                                <FormGroup>
+                                                    <Label>RUC:</Label>
+                                                    <div className="custom-view">{item.ruc}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Direccion:</Label>
+                                                    <div className="custom-view">{item.direccion}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12" md="6">
+                                                <FormGroup>
+                                                    <Label>Ciudad:</Label>
+                                                    <div className="custom-view">{item.ciudad}</div>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col xs="12" md="6">
+                                                <FormGroup>
+                                                    <Label>Pais:</Label>
+                                                    <div className="custom-view">{this.props.appData.countries[item.pais]}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <h6>Información de Contacto</h6>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Nombre Contacto:</Label>
+                                                    <div className="custom-view">{item.nombre_contacto}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12">
+                                                <FormGroup>
+                                                    <Label>Email:</Label>
+                                                    <div className="custom-view">{item.email_contacto}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs="12" md="6">
+                                                <FormGroup>
+                                                    <Label>Telefono:</Label>
+                                                    <div className="custom-view">{item.telefono}</div>
+                                                </FormGroup>
+                                            </Col>
+                                            <Col xs="12" md="6">
+                                                <FormGroup>
+                                                    <Label>FAX:</Label>
+                                                    <div className="custom-view">{item.fax}</div>
+                                                </FormGroup>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
                             </CardBlock>
                         </Card>
                     </Col>
@@ -120,5 +187,8 @@ class VerProveedor extends Component {
         );
     }
 }
-
+VerProveedor.propTypes = {
+    appData: PropTypes.object,
+    match: PropTypes.object
+};
 export default VerProveedor;
