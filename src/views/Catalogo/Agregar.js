@@ -43,7 +43,6 @@ class AgregarCatalogo extends Component {
                 }
             }
         };
-
         this.closeModal = this.closeModal.bind(this);
         this.toggle = this.toggle.bind(this);
         this.handleValidForm = this.handleValidForm.bind(this);
@@ -75,6 +74,24 @@ class AgregarCatalogo extends Component {
                 });
             });
         }
+    }
+    componentWillReceiveProps() {
+        this.setState({
+            attributes: {
+                tipoitem: 'activo',
+                codigo: '',
+                nombre: '',
+                marca: '',
+                descripcion: '',
+                idobjeto_gasto: ''
+            },
+            autocomplete: {
+                idobjeto_gasto: ""
+            },
+            errors: {},
+            type: 'add',
+            modal: false
+        });
     }
     handleInputChange(event) {
         const target = event.target;
@@ -124,17 +141,19 @@ class AgregarCatalogo extends Component {
         }
         return fetch(`${this.props.appData.endpoint}/autocomplete/${table}?q=${search}`).then(response => response.json()).then(response => ({ options: response.rows }));
     }
-    handleAutocompleteChange(event, name) {
-        this.setState({
-            attributes: {
-                ...this.state.attributes,
-                [name]: (event === null) ? null : event.value
-            },
-            autocomplete: {
-                ...this.state.autocomplete,
-                [name]: event
-            }
-        });
+    handleAutocompleteChange(data) {
+        if (data) {
+            this.setState({
+                autocomplete: {
+                    ...this.state.autocomplete,
+                    [data.field]: data
+                },
+                attributes: {
+                    ...this.state.attributes,
+                    [data.field]: data.value
+                }
+            });
+        }
     }
     toggle() {
         this.setState({
@@ -159,39 +178,54 @@ class AgregarCatalogo extends Component {
         }
     }
     render() {
+        const inputProps = {
+            'data-foo': "test"
+        };
         return (
             <div>
                 <Row>
                     <Col xs="12">
                         <Card>
                             <CardHeader>
-                                <i className="fa fa-edit"/>{this.state.type === 'edit' ? 'Actualizar Registro' : 'Nuevo Registro'}
+                                <i className="fa fa-edit"/>{'\u00A0'} <span className="invalid-color">Todos los campos con (*) son requeridos.</span>
                             </CardHeader>
                             <CardBlock className="card-body">
+                                <Row>
+                                    <Col xs="12">
+                                        <Link to={`/catalogo/listar/`}>
+                                            <Button color="info">
+                                                <i className="fa fa-list-alt"/>{'\u00A0'} Listado
+                                            </Button>
+                                        </Link>
+                                    </Col>
+                                    <Col xs="12">
+                                        <hr/>
+                                    </Col>
+                                </Row>
                                 <Form className="form-horizontal" onSubmit={this.handleSubmit}>
                                     <Row>
                                         <Col xs="12" md="6">
                                             <FormGroup>
-                                                <Label>Codigo</Label>
+                                                <Label>Codigo <span className="invalid-color">*</span></Label>
                                                 <Input
                                                     className={this.state.errors.codigo ? 'is-invalid' : ''}
                                                     value={this.state.attributes.codigo}
                                                     onChange={this.handleInputChange}
                                                     type="text"
                                                     name="codigo"/>
-                                                <span className="error-message">{this.state.errors.codigo}</span>
+                                                <span className="invalid-color">{this.state.errors.codigo}</span>
                                             </FormGroup>
                                         </Col>
                                         <Col xs="12" md="6">
                                             <FormGroup>
-                                                <Label>Nombre</Label>
+                                                <Label>Nombre <span className="invalid-color">*</span></Label>
                                                 <Input
                                                     className={this.state.errors.nombre ? 'is-invalid' : ''}
                                                     value={this.state.attributes.nombre}
                                                     onChange={this.handleInputChange}
                                                     type="text"
                                                     name="nombre"/>
-                                                <span className="error-message">{this.state.errors.nombre}</span>
+                                                <span className="invalid-color">{this.state.errors.nombre}</span>
                                             </FormGroup>
                                         </Col>
                                     </Row>
@@ -224,22 +258,31 @@ class AgregarCatalogo extends Component {
                                     <Row>
                                         <Col xs="12" md="6">
                                             <FormGroup>
-                                                <Label>Objeto de Gasto</Label>
-                                                <Select.Async
-                                                    className="form-control"
-                                                    placeholder="Seleccione..."
-                                                    searchPromptText="Escriba para buscar..."
-                                                    loadingPlaceholder="Cargando..."
-                                                    cache={false}
-                                                    name="idobjeto_gasto"
-                                                    value={this.state.autocomplete.idobjeto_gasto}
-                                                    onChange={e => this.handleAutocompleteChange(e, 'idobjeto_gasto')}
-                                                    loadOptions={e => this.loadOptions(e, 'objeto_gasto')}
-                                                />
-                                                <Button onClick={this.toggle} type="button" color="info">
-                                                    <i className="fa fa-plus"/>
-                                                </Button>
-                                                <div className="error-message">{this.state.errors.idobjeto_gasto}</div>
+                                                <Label>Objeto de Gasto <span className="invalid-color">*</span></Label>
+                                                <Row>
+                                                    <Col xs="2" md="2">
+                                                        <Button onClick={this.toggle} type="button" color="info">
+                                                            <i className="fa fa-plus"/>
+                                                        </Button>
+                                                    </Col>
+                                                    <Col xs="10" md="10">
+                                                        <Select.Async
+                                                            multi={false}
+                                                            clearable={false}
+                                                            className={this.state.errors.idobjeto_gasto ? 'form-control is-invalid' : 'form-control'}
+                                                            placeholder="Seleccione..."
+                                                            searchPromptText="Escriba para buscar..."
+                                                            loadingPlaceholder="Cargando..."
+                                                            name="idobjeto_gasto"
+                                                            cache={false}
+                                                            inputProps={inputProps}
+                                                            value={this.state.autocomplete.idobjeto_gasto}
+                                                            onChange={this.handleAutocompleteChange}
+                                                            loadOptions={e => this.loadOptions(e, 'objeto_gasto')}
+                                                        />
+                                                    </Col>
+                                                </Row>
+                                                <div className="invalid-color">{this.state.errors.idobjeto_gasto}</div>
                                             </FormGroup>
                                         </Col>
                                     </Row>

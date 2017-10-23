@@ -83,6 +83,29 @@ class AgregarProveedor extends Component {
             });
         }
     }
+    componentWillReceiveProps() {
+        this.setState({
+            attributes: {
+                nombre: '',
+                website: '',
+                giro_comercial: '',
+                descripcion: '',
+                razon_social: '',
+                ruc: '',
+                direccion: '',
+                ciudad: '',
+                pais: '',
+                nombre_contacto: '',
+                email_contacto: '',
+                telefono: '',
+                fax: '',
+                status: 'activo',
+                fecha: ''
+            },
+            errors: {},
+            type: 'add'
+        });
+    }
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -127,27 +150,26 @@ class AgregarProveedor extends Component {
     }
     render() {
         return (
-            <div className="animated fadeIn">
-                <Row>
-                    <Col>
-                        <Card>
-                            <CardBlock className="card-body">
-                                <Link to={`/proveedores/listar/`}>
-                                    <Button color="info">
-                                        <i className="fa fa-list-alt"/>{'\u00A0'} Listado
-                                    </Button>
-                                </Link>
-                            </CardBlock>
-                        </Card>
-                    </Col>
-                </Row>
+            <div>
                 <Row>
                     <Col xs="12">
                         <Card>
                             <CardHeader>
-                                <i className="fa fa-edit"/>{this.state.type === 'edit' ? 'Actualizar Registro' : 'Nuevo Registro'}
+                                <i className="fa fa-edit"/>{'\u00A0'} <span className="invalid-color">Todos los campos con (*) son requeridos.</span>
                             </CardHeader>
                             <CardBlock className="card-body">
+                                <Row>
+                                    <Col xs="12">
+                                        <Link to={`/proveedores/listar/`}>
+                                            <Button color="info">
+                                                <i className="fa fa-list-alt"/>{'\u00A0'} Listado
+                                            </Button>
+                                        </Link>
+                                    </Col>
+                                    <Col xs="12">
+                                        <hr/>
+                                    </Col>
+                                </Row>
                                 <Form className="form-horizontal" onSubmit={this.handleSubmit}>
                                     <Row>
                                         <Col xs="12" md="6">
@@ -155,14 +177,14 @@ class AgregarProveedor extends Component {
                                             <Row>
                                                 <Col xs="12">
                                                     <FormGroup>
-                                                        <Label>Nombre</Label>
+                                                        <Label>Nombre <span className="invalid-color">*</span></Label>
                                                         <Input
                                                             className={this.state.errors.nombre ? 'is-invalid' : ''}
                                                             value={this.state.attributes.nombre}
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="nombre"/>
-                                                        <span className="error-message">{this.state.errors.nombre}</span>
+                                                        <span className="invalid-color">{this.state.errors.nombre}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -176,7 +198,6 @@ class AgregarProveedor extends Component {
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="website"/>
-                                                        <span className="error-message">{this.state.errors.website}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -190,7 +211,6 @@ class AgregarProveedor extends Component {
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="giro_comercial"/>
-                                                        <span className="error-message">{this.state.errors.giro_comercial}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -205,7 +225,6 @@ class AgregarProveedor extends Component {
                                                             onChange={this.handleInputChange}
                                                             type="textarea"
                                                             name="descripcion"/>
-                                                        <span className="error-message">{this.state.errors.descripcion}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -215,28 +234,28 @@ class AgregarProveedor extends Component {
                                             <Row>
                                                 <Col xs="12">
                                                     <FormGroup>
-                                                        <Label>Nombre o Razon Social</Label>
+                                                        <Label>Nombre o Razon Social <span className="invalid-color">*</span></Label>
                                                         <Input
                                                             className={this.state.errors.razon_social ? 'is-invalid' : ''}
                                                             value={this.state.attributes.razon_social}
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="razon_social"/>
-                                                        <span className="error-message">{this.state.errors.razon_social}</span>
+                                                        <span className="invalid-color">{this.state.errors.razon_social}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col xs="12" md="12">
                                                     <FormGroup>
-                                                        <Label>RUC</Label>
+                                                        <Label>RUC <span className="invalid-color">*</span></Label>
                                                         <Input
                                                             className={this.state.errors.ruc ? 'is-invalid' : ''}
                                                             value={this.state.attributes.ruc}
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="ruc"/>
-                                                        <span className="error-message">{this.state.errors.ruc}</span>
+                                                        <span className="invalid-color">{this.state.errors.ruc}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -253,7 +272,7 @@ class AgregarProveedor extends Component {
                                                                 name="direccion"/>
                                                             <InputGroupAddon><i className="fa fa-map-marker"/></InputGroupAddon>
                                                         </InputGroup>
-                                                        <span className="error-message">{this.state.errors.direccion}</span>
+                                                        <span className="invalid-color">{this.state.errors.direccion}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -267,7 +286,7 @@ class AgregarProveedor extends Component {
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="ciudad"/>
-                                                        <span className="error-message">{this.state.errors.ciudad}</span>
+                                                        <span className="invalid-color">{this.state.errors.ciudad}</span>
                                                     </FormGroup>
                                                 </Col>
                                                 <Col xs="12" md="6">
@@ -284,7 +303,7 @@ class AgregarProveedor extends Component {
                                                             )}
                                                         </Input>
 
-                                                        <span className="error-message">{this.state.errors.pais}</span>
+                                                        <span className="invalid-color">{this.state.errors.pais}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -292,28 +311,28 @@ class AgregarProveedor extends Component {
                                             <Row>
                                                 <Col xs="12">
                                                     <FormGroup>
-                                                        <Label>Nombre Contacto</Label>
+                                                        <Label>Nombre Contacto <span className="invalid-color">*</span></Label>
                                                         <Input
                                                             className={this.state.errors.nombre_contacto ? 'is-invalid' : ''}
                                                             value={this.state.attributes.nombre_contacto}
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="nombre_contacto"/>
-                                                        <span className="error-message">{this.state.errors.nombre_contacto}</span>
+                                                        <span className="invalid-color">{this.state.errors.nombre_contacto}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
                                             <Row>
                                                 <Col xs="12">
                                                     <FormGroup>
-                                                        <Label>Email</Label>
+                                                        <Label>Email <span className="invalid-color">*</span></Label>
                                                         <Input
                                                             className={this.state.errors.email_contacto ? 'is-invalid' : ''}
                                                             value={this.state.attributes.email_contacto}
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="email_contacto"/>
-                                                        <span className="error-message">{this.state.errors.email_contacto}</span>
+                                                        <span className="invalid-color">{this.state.errors.email_contacto}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>
@@ -327,7 +346,7 @@ class AgregarProveedor extends Component {
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="telefono"/>
-                                                        <span className="error-message">{this.state.errors.telefono}</span>
+                                                        <span className="invalid-color">{this.state.errors.telefono}</span>
                                                     </FormGroup>
                                                 </Col>
                                                 <Col xs="12" md="6">
@@ -339,7 +358,7 @@ class AgregarProveedor extends Component {
                                                             onChange={this.handleInputChange}
                                                             type="text"
                                                             name="fax"/>
-                                                        <span className="error-message">{this.state.errors.fax}</span>
+                                                        <span className="invalid-color">{this.state.errors.fax}</span>
                                                     </FormGroup>
                                                 </Col>
                                             </Row>

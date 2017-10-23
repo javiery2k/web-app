@@ -12,13 +12,20 @@ class ListarCatalogo extends Component {
                 rows: [],
                 total: 0
             },
-            loading: false
+            loading: true
         };
         this.handlePageChange = this.handlePageChange.bind(this);
     }
     componentDidMount() {
         fetch(`${this.props.appData.endpoint}/catalogo/`).then(response => response.json()).then((response) => {
-            this.setState({ data: response, loading: false, activePage: 1 });
+            this.setState({
+                data: {
+                    ...this.state.data,
+                    ...response
+                },
+                loading: false,
+                activePage: 1
+            });
         });
     }
     handlePageChange(pageNumber) {
@@ -36,24 +43,23 @@ class ListarCatalogo extends Component {
             <Row>
                 <Col>
                     <Card>
-                        <CardBlock className="card-body">
-                            <Link to={`/catalogo/agregar/`}>
-                                <Button color="success">
-                                    <i className="fa fa-plus"/>{'\u00A0'} Nuevo Activo/Servicio
-                                </Button>
-                            </Link>
-                        </CardBlock>
-                    </Card>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Card>
                         <CardHeader>
                             <i className="fa fa-align-justify"/> Gestionar Catalogo
                         </CardHeader>
                         <CardBlock className="card-body">
-                            <Table responsive>
+                            <Row>
+                                <Col xs="12">
+                                    <Link to={`/catalogo/agregar/`}>
+                                        <Button color="success">
+                                            <i className="fa fa-plus"/>{'\u00A0'} Nuevo Activo/Servicio
+                                        </Button>
+                                    </Link>
+                                </Col>
+                                <Col xs="12">
+                                    <hr/>
+                                </Col>
+                            </Row>
+                            <Table striped responsive size="sm">
                                 <thead>
                                     <tr>
                                         <th width="2%">#</th>

@@ -50,6 +50,17 @@ class AgregarObjetoGasto extends Component {
             });
         }
     }
+    componentWillReceiveProps() {
+        this.setState({
+            attributes: {
+                codigo: '',
+                nombre: '',
+                descripcion: ''
+            },
+            errors: {},
+            type: 'add'
+        });
+    }
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -102,42 +113,55 @@ class AgregarObjetoGasto extends Component {
                 <Row>
                     <Col xs="12">
                         <Card>
-                            {!this.props.isModal &&
                             <CardHeader>
-                                <i className="fa fa-edit"/>{this.state.type === 'edit' ? 'Actualizar Registro' : 'Nuevo Registro'}
-                            </CardHeader>}
+                                <i className="fa fa-edit"/>{'\u00A0'} <span className="invalid-color">Todos los campos con (*) son requeridos.</span>
+                            </CardHeader>
                             <CardBlock className="card-body">
+                                {!this.props.isModal &&
+                                <Row>
+                                    <Col xs="12">
+                                        <Link to={`/objeto_gasto/listar/`}>
+                                            <Button color="info">
+                                                <i className="fa fa-list-alt"/>{'\u00A0'} Listado
+                                            </Button>
+                                        </Link>
+                                    </Col>
+                                    <Col xs="12">
+                                        <hr/>
+                                    </Col>
+                                </Row>}
                                 <Form className="form-horizontal" onSubmit={this.handleSubmit}>
                                     <Row>
                                         <Col xs="12" md="6">
                                             <FormGroup>
-                                                <Label>Codigo</Label>
+                                                <Label>Código <span className="invalid-color">*</span></Label>
                                                 <Input
                                                     className={this.state.errors.codigo ? 'is-invalid' : ''}
                                                     value={this.state.attributes.codigo}
                                                     onChange={this.handleInputChange}
+                                                    maxLength={3}
                                                     type="text"
                                                     name="codigo"/>
-                                                <span className="error-message">{this.state.errors.codigo}</span>
+                                                <span className="invalid-color">{this.state.errors.codigo}</span>
                                             </FormGroup>
                                         </Col>
                                         <Col xs="12" md="6">
                                             <FormGroup>
-                                                <Label>Nombre</Label>
+                                                <Label>Nombre <span className="invalid-color">*</span></Label>
                                                 <Input
                                                     className={this.state.errors.nombre ? 'is-invalid' : ''}
                                                     value={this.state.attributes.nombre}
                                                     onChange={this.handleInputChange}
                                                     type="text"
                                                     name="nombre"/>
-                                                <span className="error-message">{this.state.errors.nombre}</span>
+                                                <span className="invalid-color">{this.state.errors.nombre}</span>
                                             </FormGroup>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xs="12" md="12">
                                             <FormGroup>
-                                                <Label htmlFor="descripcion">Descripcion</Label>
+                                                <Label htmlFor="descripcion">Detalle</Label>
                                                 <Input
                                                     rows="10"
                                                     className={this.state.errors.descripcion ? 'is-invalid' : ''}

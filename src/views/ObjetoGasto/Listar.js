@@ -12,13 +12,20 @@ class ListarObjetosGasto extends Component {
                 rows: [],
                 total: 0
             },
-            loading: false
+            loading: true
         };
         this.handlePageChange = this.handlePageChange.bind(this);
     }
     componentDidMount() {
         fetch(`${this.props.appData.endpoint}/objeto_gasto/`).then(response => response.json()).then((response) => {
-            this.setState({ data: response, loading: false, activePage: 1 });
+            this.setState({
+                data: {
+                    ...this.state.data,
+                    ...response
+                },
+                loading: false,
+                activePage: 1
+            });
         });
     }
     handlePageChange(pageNumber) {
@@ -36,39 +43,39 @@ class ListarObjetosGasto extends Component {
             <Row>
                 <Col>
                     <Card>
-                        <CardBlock className="card-body">
-                            <Link to={`/objeto_gasto/agregar/`}>
-                                <Button color="success">
-                                    <i className="fa fa-plus"/>{'\u00A0'} Nuevo Objeto de Gasto
-                                </Button>
-                            </Link>
-                        </CardBlock>
-                    </Card>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Card>
                         <CardHeader>
                             <i className="fa fa-align-justify"/> Gestionar Objetos de Gasto
                         </CardHeader>
                         <CardBlock className="card-body">
-                            <Table responsive>
+                            <Row>
+                                <Col xs="12">
+                                    <Link to={`/objeto_gasto/agregar/`}>
+                                        <Button color="success">
+                                            <i className="fa fa-plus"/>{'\u00A0'} Agregar
+                                        </Button>
+                                    </Link>
+                                </Col>
+                                <Col xs="12">
+                                    <hr/>
+                                </Col>
+                            </Row>
+                            <Table striped responsive size="sm">
                                 <thead>
                                     <tr>
-                                        <th width="2%">#</th>
-                                        <th>Acciones</th>
-                                        <th>Codigo</th>
+                                        <th className="numeral">#</th>
+                                        <th className="text-center">Acciones</th>
+                                        <th className="text-center">Codigo</th>
                                         <th>Nombre</th>
                                         <th>Descripcion</th>
                                     </tr>
                                 </thead>
+                                {this.state.data.rows &&
                                 <tbody>
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{item.rnum}</td>
-                                            <td>
-                                                <UncontrolledDropdown>
+                                            <td className="numeral">{item.rnum}</td>
+                                            <td className="text-center">
+                                                <UncontrolledDropdown size="sm">
                                                     <DropdownToggle caret>
                                                       acciones
                                                     </DropdownToggle>
@@ -82,12 +89,12 @@ class ListarObjetosGasto extends Component {
                                                     </DropdownMenu>
                                                 </UncontrolledDropdown>
                                             </td>
-                                            <td>{item.codigo}</td>
+                                            <td className="text-center">{item.codigo}</td>
                                             <td>{item.nombre}</td>
                                             <td>{item.descripcion}</td>
 
                                         </tr>))}
-                                </tbody>
+                                </tbody>}
                             </Table>
                             <nav>
                                 <Pagination

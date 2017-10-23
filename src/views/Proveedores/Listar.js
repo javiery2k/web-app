@@ -18,7 +18,14 @@ class ListarProveedores extends Component {
     }
     componentDidMount() {
         fetch(`${this.props.appData.endpoint}/proveedores/`).then(response => response.json()).then((response) => {
-            this.setState({ data: response, loading: false, activePage: 1 });
+            this.setState({
+                data: {
+                    ...this.state.data,
+                    ...response
+                },
+                loading: false,
+                activePage: 1
+            });
         });
     }
     handlePageChange(pageNumber) {
@@ -35,30 +42,29 @@ class ListarProveedores extends Component {
         return (<div>
             <Row>
                 <Col>
-                    <Card>
-                        <CardBlock className="card-body">
-                            <Link to={`/proveedores/agregar/`}>
-                                <Button color="success">
-                                    <i className="fa fa-plus"/>{'\u00A0'} Nuevo Proveedor
-                                </Button>
-                            </Link>
-                        </CardBlock>
-                    </Card>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
 
                     <Card>
                         <CardHeader>
                             <i className="fa fa-align-justify"/> Gestionar Proveedores
                         </CardHeader>
                         <CardBlock className="card-body">
-                            <Table responsive>
+                            <Row>
+                                <Col xs="12">
+                                    <Link to={`/proveedores/agregar/`}>
+                                        <Button color="success">
+                                            <i className="fa fa-plus"/>{'\u00A0'} Agregar
+                                        </Button>
+                                    </Link>
+                                </Col>
+                                <Col xs="12">
+                                    <hr/>
+                                </Col>
+                            </Row>
+                            <Table striped responsive size="sm">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Acciones</th>
+                                        <th className="numeral">#</th>
+                                        <th className="text-center">Acciones</th>
                                         <th>Nombre</th>
                                         <th>Contato</th>
                                         <th>Email</th>
@@ -68,9 +74,9 @@ class ListarProveedores extends Component {
                                 <tbody>
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{item.rnum}</td>
-                                            <td>
-                                                <UncontrolledDropdown>
+                                            <td className="numeral">{item.rnum}</td>
+                                            <td className="text-center">
+                                                <UncontrolledDropdown size="sm">
                                                     <DropdownToggle caret>
                                                       acciones
                                                     </DropdownToggle>

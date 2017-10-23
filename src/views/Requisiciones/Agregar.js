@@ -11,12 +11,12 @@ class AgregarRequisicion extends Component {
         super(props);
         this.state = {
             count: 0,
-            catalogo: [],
-            value: "",
+            autocomplete: [],
             attributes: {
                 idusuario: props.appData.user.idusuario,
                 nombre: '',
-                descripcion: ''
+                descripcion: '',
+                items: []
             },
             errors: {},
             type: 'add'
@@ -26,17 +26,22 @@ class AgregarRequisicion extends Component {
                 presence: {
                     message: '^Ingrese el nombre para esta requicion.'
                 }
+            },
+            'cantidad[]': {
+                presence: {
+                    message: '^Ingrese el nombre para esta requicion.'
+                }
             }
         };
         this.handleValidForm = this.handleValidForm.bind(this);
         this.handleErrorForm = this.handleErrorForm.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputDynamicChange = this.handleInputDynamicChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.getOptions = this.getOptions.bind(this);
+        this.loadOptions = this.loadOptions.bind(this);
         this.createUI = this.createUI.bind(this);
         this.addClick = this.addClick.bind(this);
         this.removeClick = this.removeClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
         const id = this.props.match.params.id || null;
@@ -53,23 +58,8 @@ class AgregarRequisicion extends Component {
             });
         }
     }
-    getOptions(input, table) {
-        if (!input) {
-            return Promise.resolve({ options: [] });
-        }
-        return fetch(`${this.props.appData.endpoint}/autocomplete/${table}?q=${input}`).then(response => response.json()).then(response => ({ options: response.rows }));
-    }
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        this.setState({
-            attributes: {
-                ...this.state.attributes,
-                [name]: value
-            }
-        });
-    }
+
+
     handleValidForm() {
         fetch(`${this.props.appData.endpoint}/catalogo/`, {
             method: "POST",
@@ -101,44 +91,88 @@ class AgregarRequisicion extends Component {
             this.handleErrorForm(errors);
         });
     }
-    handleChange(event, i, table = '') {
-        const catalogo = this.state.catalogo.slice();
-        let value;
-        let name;
-        if (table === 'catalogo' || table === 'medidas') {
-            value = event;
-            name = table;
-        } else {
-            const target = event.target;
-            value = target.type === 'checkbox' ? target.checked : target.value;
-            name = target.name;
+    loadOptions(search, table) {
+        if (!search) {
+            return Promise.resolve({ options: [] });
         }
+        return fetch(`${this.props.appData.endpoint}/autocomplete/${table}?q=${search}`).then(response => response.json()).then(response => ({ options: response.rows }));
+    }
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+        this.setState({
+            attributes: {
+                ...this.state.attributes,
+                [name]: value
+            }
+        });
+    }
+    handleInputDynamicChange(event) {
+        const target = event.target;
+        const index = target.dataset.index;
+        const items = this.state.attributes.items.slice();
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
 
-        catalogo[i] = {
-            ...catalogo[i],
+        items[index] = {
+            ...items[index],
             [name]: value
         };
-        this.setState({ catalogo });
+
+        this.setState({
+            attributes: {
+                ...this.state.attributes,
+                items
+            }
+        });
+    }
+    handleAutocompleteChange(data, index) {
+        const autocomplete = this.state.autocomplete.slice();
+        const items = this.state.attributes.items.slice();
+        autocomplete[index] = {
+            ...autocomplete[index],
+            [data.field]: data
+        };
+
+        items[index] = {
+            ...items[index],
+            [data.field]: data.value,
+            codigo: (data.codigo) ? data.codigo : (items[index].codigo || "")
+        };
+
+        if (data) {
+            this.setState({
+                autocomplete,
+                attributes: {
+                    ...this.state.attributes,
+                    items
+                }
+            });
+        }
     }
     addClick() {
-        const catalogo = this.state.catalogo.slice();
-        catalogo[this.state.count] = {
-            cantidad: 1,
-            unidad: "",
-            catalogo: "",
-            medidas: ""
+        const items = this.state.attributes.items.slice();
+        items[this.state.count] = {
+            cantidad: "",
+            idcatalogo: "",
+            idmedida: "",
+            codigo: ""
         };
         this.setState({
-            catalogo,
+            attributes: {
+                ...this.state.attributes,
+                items
+            },
             count: this.state.count + 1
         });
     }
     removeClick(i) {
-        const catalogo = this.state.catalogo.slice();
-        catalogo.splice(i, 1);
+        const items = this.state.attributes.items.slice();
+        items.splice(i, 1);
         this.setState({
             count: this.state.count - 1,
-            catalogo
+            items
         });
     }
     createUI() {
@@ -155,10 +189,11 @@ class AgregarRequisicion extends Component {
                         <Row>
                             <Col xs="12" md="12">
                                 <Input
-                                    value={this.state.catalogo[i] ? this.state.catalogo[i].cantidad : ''}
-                                    onChange={e => this.handleChange(e, i)}
-                                    type="text"
-                                    name="cantidad"/>
+                                    value={this.state.attributes.items[i] ? this.state.attributes.items[i].cantidad : ''}
+                                    onChange={this.handleInputDynamicChange}
+                                    data-index={i}
+                                    name="cantidad"
+                                    type="text"/>
                             </Col>
                         </Row>
                     </td>
@@ -167,23 +202,15 @@ class AgregarRequisicion extends Component {
                             <Col xs="12" md="12">
                                 <Select.Async
                                     className="form-control"
+                                    placeholder="Seleccione..."
+                                    searchPromptText="Escriba para buscar..."
+                                    loadingPlaceholder="Cargando..."
                                     cache={false}
-                                    name="catalogo"
-                                    value={this.state.catalogo[i] ? this.state.catalogo[i].catalogo : ''}
-                                    onChange={e => this.handleChange(e, i, 'catalogo')}
-                                    loadOptions={e => this.getOptions(e, 'catalogo')}
+                                    name="idcatalogo"
+                                    value={this.state.autocomplete[i] ? this.state.autocomplete[i].idcatalogo : ''}
+                                    onChange={e => this.handleAutocompleteChange(e, i)}
+                                    loadOptions={e => this.loadOptions(e, 'catalogo')}
                                 />
-                            </Col>
-                        </Row>
-                    </td>
-                    <td>
-                        <Row>
-                            <Col xs="12" md="12">
-                                <Input
-                                    value={this.state.catalogo[i] ? this.state.catalogo[i].unidad : ''}
-                                    onChange={e => this.handleChange(e, i)}
-                                    type="text"
-                                    name="unidad"/>
                             </Col>
                         </Row>
                     </td>
@@ -192,11 +219,14 @@ class AgregarRequisicion extends Component {
                             <Col xs="12" md="12">
                                 <Select.Async
                                     className="form-control"
+                                    placeholder="Seleccione..."
+                                    searchPromptText="Escriba para buscar..."
+                                    loadingPlaceholder="Cargando..."
                                     cache={false}
-                                    name="medidas"
-                                    value={this.state.catalogo[i] ? this.state.catalogo[i].medidas : ''}
-                                    onChange={e => this.handleChange(e, i, 'medidas')}
-                                    loadOptions={e => this.getOptions(e, 'medidas')}
+                                    name="idmedida"
+                                    value={this.state.autocomplete[i] ? this.state.autocomplete[i].idmedida : ''}
+                                    onChange={e => this.handleAutocompleteChange(e, i)}
+                                    loadOptions={e => this.loadOptions(e, 'medidas')}
                                 />
                             </Col>
                         </Row>
@@ -205,8 +235,10 @@ class AgregarRequisicion extends Component {
                         <Row>
                             <Col xs="12" md="12">
                                 <Input
-                                    type="text"
-                                    name="marca"/>
+                                    value={this.state.attributes.items[i] ? this.state.attributes.items[i].codigo : ''}
+                                    readOnly
+                                    name="codigo"
+                                    type="text"/>
                             </Col>
                         </Row>
                     </td>
@@ -218,6 +250,19 @@ class AgregarRequisicion extends Component {
     render() {
         return (
             <div className="animated fadeIn">
+                <Row>
+                    <Col>
+                        <Card>
+                            <CardBlock className="card-body">
+                                <Link to={`/requisiciones/listar/`}>
+                                    <Button color="info">
+                                        <i className="fa fa-list-alt"/>{'\u00A0'} Listado
+                                    </Button>
+                                </Link>
+                            </CardBlock>
+                        </Card>
+                    </Col>
+                </Row>
                 <Row>
                     <Col xs="12">
                         <Card>
@@ -250,14 +295,14 @@ class AgregarRequisicion extends Component {
                                                     onChange={this.handleInputChange}
                                                     type="text"
                                                     name="nombre"/>
-                                                <span className="error-message">{this.state.errors.nombre}</span>
+                                                <span className="invalid-color">{this.state.errors.nombre}</span>
                                             </FormGroup>
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col xs="12" md="12">
                                             <FormGroup>
-                                                <Label>Descripcion:</Label>
+                                                <Label>Observaciones:</Label>
                                                 <Input
                                                     rows="4"
                                                     className={this.state.errors.descripcion ? 'is-invalid' : ''}
@@ -265,7 +310,7 @@ class AgregarRequisicion extends Component {
                                                     onChange={this.handleInputChange}
                                                     type="textarea"
                                                     name="descripcion"/>
-                                                <span className="error-message">{this.state.errors.descripcion}</span>
+                                                <span className="invalid-color">{this.state.errors.descripcion}</span>
                                             </FormGroup>
                                         </Col>
                                     </Row>
@@ -282,9 +327,8 @@ class AgregarRequisicion extends Component {
                                                         <td width="2%"/>
                                                         <td width="10%">cantidad</td>
                                                         <td width="25%">activo</td>
-                                                        <td width="10%">unidad</td>
-                                                        <td width="25%">medidas</td>
-                                                        <td width="25%">Cod Presupuestario</td>
+                                                        <td width="25%">unidad</td>
+                                                        <td width="5%">objeto gasto</td>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

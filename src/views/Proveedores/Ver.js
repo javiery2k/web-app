@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Row, Col, Button, Card, CardBlock, FormGroup, Label } from "reactstrap";
+import { Row, Col, Button, Card, CardHeader, CardBlock, FormGroup, Label } from "reactstrap";
 
 class VerProveedor extends Component {
     constructor(props) {
@@ -33,35 +33,38 @@ class VerProveedor extends Component {
         return (
             <div className="animated fadeIn view-data">
                 <Row>
-                    <Col>
-                        <Card>
-                            <CardBlock className="card-body">
-                                <Link to={`/proveedores/editar/${item.idproveedor}`}>
-                                    <Button color="success">
-                                        <i className="fa fa-edit"/>{'\u00A0'} Editar
-                                    </Button>
-                                </Link>
-                                <Link to={`/proveedores/listar/`}>
-                                    <Button color="info">
-                                        <i className="fa fa-list-alt"/>{'\u00A0'} Listado
-                                    </Button>
-                                </Link>
-                            </CardBlock>
-                        </Card>
-                    </Col>
-                </Row>
-                <Row>
                     <Col xs="12">
                         <Card>
+                            <CardHeader>
+                                <i className="fa fa-list"/>{'\u00A0'} <span>Detalles.</span>
+                            </CardHeader>
                             <CardBlock className="card-body">
+                                <Row>
+                                    <Col xs="12">
+                                        <Link to={`/proveedores/editar/${item.idproveedor}`}>
+                                            <Button color="success">
+                                                <i className="fa fa-edit"/>{'\u00A0'} Editar
+                                            </Button>
+                                        </Link>
+                                        <Link to={`/proveedores/listar/`}>
+                                            <Button color="info">
+                                                <i className="fa fa-list-alt"/>{'\u00A0'} Listado
+                                            </Button>
+                                        </Link>
+                                    </Col>
+                                    <Col xs="12">
+                                        <hr/>
+                                    </Col>
+                                </Row>
                                 <Row>
                                     <Col xs="12" md="6">
                                         <h6>Información General</h6>
+                                        <hr/>
                                         <Row>
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>id:</Label>
-                                                    <div className="custom-view">{item.idproveedor}</div>
+                                                    <div>{item.idproveedor}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -69,7 +72,7 @@ class VerProveedor extends Component {
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Fecha de Creación:</Label>
-                                                    <div className="custom-view">{item.fecha}</div>
+                                                    <div>{item.fecha}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -77,7 +80,7 @@ class VerProveedor extends Component {
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Nombre:</Label>
-                                                    <div className="custom-view">{item.nombre}</div>
+                                                    <div>{item.nombre}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -85,7 +88,7 @@ class VerProveedor extends Component {
                                             <Col xs="12" md="12">
                                                 <FormGroup>
                                                     <Label>Website:</Label>
-                                                    <div className="custom-view">{item.website}</div>
+                                                    <div>{item.website}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -93,7 +96,7 @@ class VerProveedor extends Component {
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Giro Comercial:</Label>
-                                                    <div className="custom-view">{item.giro_comercial}</div>
+                                                    <div>{item.giro_comercial}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -101,18 +104,19 @@ class VerProveedor extends Component {
                                             <Col xs="12" md="12">
                                                 <FormGroup>
                                                     <Label>Descripcion:</Label>
-                                                    <div className="custom-view">{item.descripcion}</div>
+                                                    <div>{item.descripcion}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
                                     </Col>
                                     <Col xs="12" md="6">
                                         <h6>Información Fiscal</h6>
+                                        <hr/>
                                         <Row>
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Nombre o Razon Social:</Label>
-                                                    <div className="custom-view">{item.razon_social}</div>
+                                                    <div>{item.razon_social}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -120,7 +124,7 @@ class VerProveedor extends Component {
                                             <Col xs="12" md="12">
                                                 <FormGroup>
                                                     <Label>RUC:</Label>
-                                                    <div className="custom-view">{item.ruc}</div>
+                                                    <div>{item.ruc}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -128,7 +132,7 @@ class VerProveedor extends Component {
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Direccion:</Label>
-                                                    <div className="custom-view">{item.direccion}</div>
+                                                    <div>{item.direccion}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -136,22 +140,23 @@ class VerProveedor extends Component {
                                             <Col xs="12" md="6">
                                                 <FormGroup>
                                                     <Label>Ciudad:</Label>
-                                                    <div className="custom-view">{item.ciudad}</div>
+                                                    <div>{item.ciudad}</div>
                                                 </FormGroup>
                                             </Col>
                                             <Col xs="12" md="6">
                                                 <FormGroup>
                                                     <Label>Pais:</Label>
-                                                    <div className="custom-view">{this.props.appData.countries[item.pais]}</div>
+                                                    <div>{this.props.appData.countries[item.pais]}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
                                         <h6>Información de Contacto</h6>
+                                        <hr/>
                                         <Row>
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Nombre Contacto:</Label>
-                                                    <div className="custom-view">{item.nombre_contacto}</div>
+                                                    <div>{item.nombre_contacto}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -159,7 +164,7 @@ class VerProveedor extends Component {
                                             <Col xs="12">
                                                 <FormGroup>
                                                     <Label>Email:</Label>
-                                                    <div className="custom-view">{item.email_contacto}</div>
+                                                    <div>{item.email_contacto}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>
@@ -167,13 +172,13 @@ class VerProveedor extends Component {
                                             <Col xs="12" md="6">
                                                 <FormGroup>
                                                     <Label>Telefono:</Label>
-                                                    <div className="custom-view">{item.telefono}</div>
+                                                    <div>{item.telefono}</div>
                                                 </FormGroup>
                                             </Col>
                                             <Col xs="12" md="6">
                                                 <FormGroup>
                                                     <Label>FAX:</Label>
-                                                    <div className="custom-view">{item.fax}</div>
+                                                    <div>{item.fax}</div>
                                                 </FormGroup>
                                             </Col>
                                         </Row>

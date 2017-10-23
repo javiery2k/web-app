@@ -145,7 +145,7 @@ class Login extends Component {
                                                             </InputGroup>
                                                             <Row className="mb-4">
                                                                 <Col xs="12">
-                                                                    <span className="error-message">{this.state.errors.response}</span>
+                                                                    <span className="invalid-color">{this.state.errors.response}</span>
                                                                 </Col>
                                                             </Row>
                                                             <Row>

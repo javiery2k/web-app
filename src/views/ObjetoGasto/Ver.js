@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Row, Col, Button, Card, CardBlock, FormGroup, Label } from "reactstrap";
+import { Row, Col, Button, Card, CardHeader, CardBlock, FormGroup, Label } from "reactstrap";
 
 class VerObjetoGasto extends Component {
     constructor(props) {
@@ -32,60 +32,56 @@ class VerObjetoGasto extends Component {
         return (
             <div className="animated fadeIn view-data">
                 <Row>
-                    <Col>
-                        <Card>
-                            <CardBlock className="card-body">
-                                <Link to={`/objeto_gasto/editar/${item.idobjeto_gasto}`}>
-                                    <Button color="success">
-                                        <i className="fa fa-edit"/>{'\u00A0'} Editar
-                                    </Button>
-                                </Link>
-                                <Link to={`/objeto_gasto/listar/`}>
-                                    <Button color="info">
-                                        <i className="fa fa-list-alt"/>{'\u00A0'} Listado
-                                    </Button>
-                                </Link>
-                            </CardBlock>
-                        </Card>
-                    </Col>
-                </Row>
-                <Row>
                     <Col xs="12">
                         <Card>
+                            <CardHeader>
+                                <i className="fa fa-list"/>{'\u00A0'} <span>Detalles.</span>
+                            </CardHeader>
                             <CardBlock className="card-body">
+                                <Row>
+                                    <Col xs="12">
+                                        <Link to={`/objeto_gasto/editar/${item.idobjeto_gasto}`}>
+                                            <Button color="success">
+                                                <i className="fa fa-edit"/>{'\u00A0'} Editar
+                                            </Button>
+                                        </Link>
+                                        <Link to={`/objeto_gasto/listar/`}>
+                                            <Button color="info">
+                                                <i className="fa fa-list-alt"/>{'\u00A0'} Listado
+                                            </Button>
+                                        </Link>
+                                    </Col>
+                                    <Col xs="12">
+                                        <hr/>
+                                    </Col>
+                                </Row>
                                 <Row>
                                     <Col xs="12" md="6">
                                         <FormGroup>
-                                            <Label htmlFor="codigo">id</Label>
-                                            <div className="custom-view">{item.idobjeto_gasto}</div>
+                                            <Label>Codigo</Label>
+                                            <div>{item.codigo}</div>
                                         </FormGroup>
                                     </Col>
                                     <Col xs="12" md="6">
                                         <FormGroup>
-                                            <Label htmlFor="nombre">Fecha de Creación</Label>
-                                            <div className="custom-view">{item.fecha}</div>
+                                            <Label>Nombre</Label>
+                                            <div>{item.nombre}</div>
                                         </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xs="12" md="6">
                                         <FormGroup>
-                                            <Label htmlFor="codigo">Codigo</Label>
-                                            <div className="custom-view">{item.codigo}</div>
-                                        </FormGroup>
-                                    </Col>
-                                    <Col xs="12" md="6">
-                                        <FormGroup>
-                                            <Label htmlFor="nombre">Nombre</Label>
-                                            <div className="custom-view">{item.nombre}</div>
+                                            <Label>Fecha de Creación</Label>
+                                            <div>{item.fecha}</div>
                                         </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col xs="12" md="12">
                                         <FormGroup>
-                                            <Label htmlFor="descripcion">Descripcion</Label>
-                                            <div className="custom-view">{item.descripcion}</div>
+                                            <Label>Descripcion</Label>
+                                            <div>{item.descripcion}</div>
                                         </FormGroup>
                                     </Col>
                                 </Row>

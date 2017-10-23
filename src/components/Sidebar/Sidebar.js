@@ -34,7 +34,7 @@ class Sidebar extends Component {
                         </li>
                         <li className={this.activeRoute("/requisiciones")}>
                             <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}>
-                                <i className="icon-docs"/> Requisicion
+                                <i className="icon-docs"/> Requisiciones
                             </a>
                             <ul className="nav-dropdown-items">
                                 <li className="nav-item">
@@ -44,7 +44,7 @@ class Sidebar extends Component {
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to={'/requisiciones/agregar'} className="nav-link">
-                                        Agregar
+                                        Nuevo
                                     </NavLink>
                                 </li>
                             </ul>
@@ -61,23 +61,25 @@ class Sidebar extends Component {
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to={'/catalogo/agregar'} className="nav-link">
-                                        Crear Activo / Servicio
+                                        Nuevo
                                     </NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li className={this.activeRoute("/objeto_gasto")}>
                             <a className="nav-link nav-dropdown-toggle" onClick={this.handleClick.bind(this)}>
-                                <i className="icon-tag"/> Objeto de Gasto
+                                <i className="icon-tag"/> Objeto de Gastos
                             </a>
                             <ul className="nav-dropdown-items">
                                 <li className="nav-item">
                                     <NavLink to={'/objeto_gasto/listar'} className="nav-link">
-                                    Gestionar</NavLink>
+                                        Gestionar
+                                    </NavLink>
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to={'/objeto_gasto/agregar'} className="nav-link">
-                                    Nuevo Objeto</NavLink>
+                                        Nuevo
+                                    </NavLink>
                                 </li>
                             </ul>
                         </li>
@@ -93,18 +95,19 @@ class Sidebar extends Component {
                                 </li>
                                 <li className="nav-item">
                                     <NavLink to={'/proveedores/agregar'} className="nav-link">
-                                        Crear Proveedor
+                                        Nuevo
                                     </NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li className="nav-item">
                             <div className="nav-link" onClick={this.onLogout}>
-                                <i className="fa fa-sign-out"/> Logout
+                                <i className="fa fa-sign-out"/> Salir
                             </div>
                         </li>
                     </ul>
                 </nav>
+                <button className="sidebar-minimizer brand-minimizer" type="button"/>
             </div>
         );
     }

@@ -1,17 +1,28 @@
 // Here you can add other styles
-.error-message {
+
+.invalid-color {
     color: $form-feedback-invalid-color;
+    font-weight: bold;
 }
+
+.sidebar .nav .nav-item.nav-dropdown > ul .nav-link {
+    padding-left: 50px;
+}
+
 .Select.form-control {
     border: 0;
     padding: 0;
     text-align: left;
+}
+.table-resposive{
+    overflow: hidden;
 }
 .view-data {
     label {
         font-weight: bold;
     }
 }
+
 .dropdown-menu a {
     text-decoration: none;
 }
@@ -28,7 +39,6 @@
     right: 0;
     text-indent: -9999px;
 }
-
 @include media-breakpoint-down(sm) {
     .main {
         .container-fluid {
@@ -37,6 +47,7 @@
     }
 }
 
+/*Loading view*/
 .app-login {
     .app-body {
         margin-top: 0;
@@ -53,4 +64,9 @@
         height: 7vh;
         overflow: hidden;
     }
+}
+
+.numeral{
+    width: 40px;
+    text-align: center;
 }
