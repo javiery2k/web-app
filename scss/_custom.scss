@@ -14,9 +14,19 @@
     padding: 0;
     text-align: left;
 }
-.table-resposive{
+
+.is-invalid .Select-control {
+    border-color: $form-feedback-invalid-color;
+
+    .Select-placeholder {
+        color: $form-feedback-invalid-color;
+    }
+}
+
+.table-resposive {
     overflow: hidden;
 }
+
 .view-data {
     label {
         font-weight: bold;
@@ -46,8 +56,8 @@
         }
     }
 }
-
 /*Loading view*/
+
 .app-login {
     .app-body {
         margin-top: 0;
@@ -66,7 +76,7 @@
     }
 }
 
-.numeral{
+.numeral {
     width: 40px;
     text-align: center;
 }

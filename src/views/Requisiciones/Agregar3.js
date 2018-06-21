@@ -10,12 +10,13 @@ class AgregarRequisicion extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            count: 0,
             autocomplete: [],
             attributes: {
                 idusuario: props.appData.user.idusuario,
                 nombre: '',
                 descripcion: '',
-                items: []
+                items: {}
             },
             errors: {},
             type: 'add'
@@ -24,6 +25,16 @@ class AgregarRequisicion extends Component {
             nombre: {
                 presence: {
                     message: '^Ingrese el nombre para esta requicion.'
+                }
+            },
+            "items[0].cantidad": {
+                presence: {
+                    message: '^Ingrese el items[0].cantidad para esta requicion.'
+                }
+            },
+            "items[1].cantidad": {
+                presence: {
+                    message: '^Ingrese el items[1].cantidad para esta requicion.'
                 }
             }
         };
@@ -83,23 +94,9 @@ class AgregarRequisicion extends Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        const length = this.state.attributes.items.length;
-        const collection = {};
-        for (let i = 0; i < length; i += 1) {
-            Object.assign(collection, {
-                [`items.${i}.cantidad`]: {
-                    presence: true
-                },
-                [`items.${i}.idcatalogo`]: {
-                    presence: true
-                },
-                [`items.${i}.idmedida`]: {
-                    presence: true
-                }
-            });
-        }
-        const constraints = Object.assign({}, this.constraints, collection);
-        validate.async(this.state.attributes, constraints).then(() => {
+        const form = document.querySelector("form");
+        const data = validate.collectFormValues(form);
+        validate.async(this.state.attributes, this.constraints).then(() => {
             this.handleValidForm();
         }, (errors) => {
             this.handleErrorForm(errors);
@@ -166,18 +163,19 @@ class AgregarRequisicion extends Component {
         }
     }
     addClick() {
-        const items = this.state.attributes.items;
-        items.push({
+        const items = this.state.attributes.items.slice();
+        items[this.state.count] = {
             cantidad: "",
             idcatalogo: "",
             idmedida: "",
             codigo: ""
-        });
+        };
         this.setState({
             attributes: {
                 ...this.state.attributes,
                 items
-            }
+            },
+            count: this.state.count + 1
         });
     }
     removeClick(i) {
@@ -187,17 +185,16 @@ class AgregarRequisicion extends Component {
         if (typeof autocomplete[i] !== 'undefined') {
             autocomplete.splice(i, 1);
         }
+
         this.setState({
-            autocomplete,
-            attributes: {
-                ...this.state.attributes,
-                items
-            }
+            count: this.state.count - 1,
+            items,
+            autocomplete
         });
     }
     createUI() {
         const uiItems = [];
-        for (let i = 0; i < this.state.attributes.items.length; i += 1) {
+        for (let i = 0; i < this.state.count; i += 1) {
             uiItems.push(
                 <tr key={i}>
                     <td className="text-left">
@@ -209,7 +206,6 @@ class AgregarRequisicion extends Component {
                         <Row>
                             <Col xs="12" md="12">
                                 <Input
-                                    className={this.state.errors[`items.${i}.cantidad`] ? 'is-invalid' : ''}
                                     value={this.state.attributes.items[i] ? this.state.attributes.items[i].cantidad : ''}
                                     onChange={this.handleInputDynamicChange}
                                     data-index={i}
@@ -225,7 +221,7 @@ class AgregarRequisicion extends Component {
                                 <Select.Async
                                     multi={false}
                                     clearable={false}
-                                    className={this.state.errors[`items.${i}.idcatalogo`] ? 'form-control is-invalid' : 'form-control'}
+                                    className="form-control"
                                     placeholder="Seleccione..."
                                     searchPromptText="Escriba para buscar..."
                                     loadingPlaceholder="Cargando..."
@@ -244,7 +240,7 @@ class AgregarRequisicion extends Component {
                                 <Select.Async
                                     multi={false}
                                     clearable={false}
-                                    className={this.state.errors[`items.${i}.idmedida`] ? 'form-control is-invalid' : 'form-control'}
+                                    className="form-control"
                                     placeholder="Seleccione..."
                                     searchPromptText="Escriba para buscar..."
                                     loadingPlaceholder="Cargando..."
@@ -296,7 +292,7 @@ class AgregarRequisicion extends Component {
                                 <i className="fa fa-edit"/>{this.state.type === 'edit' ? 'Actualizar Registro' : 'Nuevo Registro'}
                             </CardHeader>
                             <CardBlock className="card-body">
-                                <Form autoComplete="off" className="form-horizontal" onSubmit={this.handleSubmit}>
+                                <Form className="form-horizontal" onSubmit={this.handleSubmit}>
                                     <Row>
                                         <Col xs="12" md="6">
                                             <FormGroup>
