@@ -5,6 +5,12 @@
         "endpoint": "http://localhost:3001"
     },
     {
+        "key": "heroku",
+        "currentHost": "app-requisiciones.herokuapp.com",
+        "endpoint": "https://api-requisiciones.herokuapp.com/"
+    },
+
+    {
         "key": "localhost",
         "currentHost": "localhost:8080",
         "endpoint": "http://localhost:3001"
