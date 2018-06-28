@@ -92,7 +92,7 @@ class ListarOrdenes extends Component {
                                 <tbody>
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{item.RNUM}</td>
+                                            <td className="numeral">{`${index + 1}`}</td>
                                             <td className="hidden-sm-down">{item.IDCATALOGO}</td>
                                             <td className="hidden-sm-down">{item.TIPOITEM}</td>
                                             <td className="hidden-sm-down">{item.CODIGO}</td>
