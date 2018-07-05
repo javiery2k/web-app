@@ -7,9 +7,13 @@
     {
         "key": "heroku",
         "currentHost": "app-requisiciones.herokuapp.com",
-        "endpoint": "https://api-requisiciones.herokuapp.com/"
+        "endpoint": "https://api-requisiciones.herokuapp.com"
     },
-
+    {
+        "key": "heroku",
+        "currentHost": "herokuapp.com",
+        "endpoint": "https://api-requisiciones.herokuapp.com"
+    },
     {
         "key": "localhost",
         "currentHost": "localhost:8080",
