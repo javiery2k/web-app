@@ -67,7 +67,7 @@ class ListarRequisiciones extends Component {
                                 <tbody>
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
-                                            <td>{item.rnum}</td>
+                                            <td className="numeral">{`${index + 1}`}</td>
                                             <td>
                                                 <UncontrolledDropdown>
                                                     <DropdownToggle caret>

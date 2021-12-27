@@ -73,7 +73,7 @@ class ListarObjetosGasto extends Component {
                                 <tbody>
                                     {this.state.data.rows.map((item, index) => (
                                         <tr key={index}>
-                                            <td className="numeral">{item.rnum}</td>
+                                            <td className="numeral">{`${index + 1}`}</td>
                                             <td className="text-center">
                                                 <UncontrolledDropdown size="sm">
                                                     <DropdownToggle caret>
